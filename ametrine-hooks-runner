@@ -1,0 +1,51 @@
+#!/bin/bash
+
+Lsb_release() {
+    local file=/etc/lsb-release
+    cat <<EOF >$file
+DISTRIB_ID="Ametrine OS"
+DISTRIB_RELEASE="rolling"
+DISTRIB_DESCRIPTION="Ametrine OS"
+EOF
+}
+
+Os_release() {
+    local file=/usr/lib/os-release
+
+    cat <<EOF >$file
+NAME="Ametrine OS"
+PRETTY_NAME="Ametrine OS"
+ID=ametrineos
+ID_LIKE=arch
+BUILD_ID=rolling
+ANSI_COLOR="38;2;128;64;192"
+HOME_URL="https://ametrine.endercass.me/"
+LOGO=ametrine-gem
+EOF
+
+    if [ -z "$(grep "^ID_LIKE=" $file)" ] && [ -n "$(grep "^ID=" $file)" ]; then
+        # add missing ID_LIKE=
+        sed -i $file -e '/^ID=/a \ID_LIKE=arch'
+    fi
+
+}
+
+Issues() {
+    sed -i 's|Arch Linux|Ametrine OS|g' /etc/issue /usr/share/factory/etc/issue
+}
+
+Main() {
+    local hookname="$1"
+
+    case "$hookname" in
+    os-release) Os_release ;;
+    lsb-release) Lsb_release ;;
+    "")
+        Os_release
+        Lsb_release
+        Issues
+        ;;
+    esac
+}
+
+Main "$@"
