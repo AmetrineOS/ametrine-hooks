@@ -5,6 +5,6 @@ Type = Package
 Target = filesystem
 
 [Action]
-Description = Add EndeavourOS specific config.
+Description = Fix os-release file.
 When = PostTransaction
 Exec = /usr/bin/ametrine-hooks-runner os-release

@@ -2,9 +2,9 @@
 Operation = Install
 Operation = Upgrade
 Type = Package
-Target = eos-hooks
+Target = ametrine-hooks
 
 [Action]
-Description = Update EndeavourOS specific hooks.
+Description = Update Ametrine OS pacman hooks.
 When = PostTransaction
 Exec = /usr/bin/ametrine-hooks-runner
